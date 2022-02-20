@@ -3,7 +3,7 @@ title: "Introduzione a R Markdown"
 subtitle: "<br/>Create amazing documents with R"
 author: "Filippo Gambarota"
 institute: "Università di Padova"
-date: "`r Sys.Date()`"
+date: ""
 output:
   xaringan::moon_reader:
     css: [default, "files/metropolis.css", "files/metropolis-fonts.css"]
@@ -74,7 +74,7 @@ knitr::include_graphics("img/word_reddit_meme.gif")
 .pull-right[
 
 ```{r}
-knitr::include_graphics("img/word-meme2.jpeg")
+knitr::include_graphics("img/word-meme.jpeg")
 ```
 
 ]
@@ -94,16 +94,22 @@ Questo ha il vantaggio di essere molto intuitivo e semplice, ma ci sono diversi 
 
 - non abbiamo (quasi) mai una **visione d'insieme del documento** (sposto l'immagine e non so cosa succede)
 - pensiamo **contemporaneamente** al testo e alla formattazione
-- versioni di Word (o equivalenti) diverse possono creare problemi di compatibilità
-- quando il documento diventa pesante (> 30 pagine) ci possono essere problemi di performance e formattazione
+- versioni di Word (o equivalenti) diverse possono creare **problemi di compatibilità**
+- quando il documento diventa pesante (> 30 pagine) ci possono essere **problemi di performance e formattazione**
 
 ---
 
 # Ok.. qualche alternativa?
 
+--
+
 L'approccio alternativo è caratterizzato da **separare la formattazione e impaginazione (tedioso, complicato e superfluo) dal contenuto effettivo** in termini di testo.
 
+--
+
 Questo è possibile utilizzando **linguaggi di markup** ovvero un modo di scrivere del testo che viene **intepretato e compilato** e permette di produrre un certo tipo di risultato. Ad esempio:
+
+--
 
 .pull-left[
 
@@ -121,6 +127,8 @@ Questo è possibile utilizzando **linguaggi di markup** ovvero un modo di scrive
 ```
 
 ]
+
+--
 
 .pull-right[
 
@@ -169,11 +177,17 @@ knitr::include_graphics("img/latex-example-code.png")
 
 Per documenti semplici effettivamente non è necessario imparare un linguaggio come `HTML` o `Latex`. Pensate però ad una tesi di laurea, ad un report di analisi o un documento scientifico in generale dove:
 
-- inserire statistiche con un certo stile di formattazione
-- modificare diversi numeri se ci sono cambiamenti nelle analisi
-- aggiornare figure e tabelle se vengono modificate
+--
 
-Sarebbe fantastico poter non solo usare uno dei linguaggi di **markup** ma anche integrarlo con il nostro lunguaggio di programmazione preferito (R, Python, etc.).
+- **inserire statistiche** con un certo stile di formattazione
+- **modificare** diversi numeri se ci sono cambiamenti nelle analisi
+- **aggiornare** figure e tabelle se vengono modificate
+
+--
+
+Sarebbe fantastico poter unire codice (i.e., la creazione di figure/tabelle) con il testo in un unico documento!
+
+--
 
 ## Questo in programmazione si chiama **Literate Programming**
 
@@ -181,17 +195,7 @@ Sarebbe fantastico poter non solo usare uno dei linguaggi di **markup** ma anche
 
 # Un esempio?
 
-Immaginate di scrivere un report per un'analisi che avete fatto in R e vogliate inserire un'immagine di un grafico. Usando word dovete:
-
-- creare il documento e scrivere tutta la parte di testo
-- inserire l'immagine da un file esterno
-
-Cosa succede se l'immagine cambia? Dovete manualmente eliminare l'immagine precedente e inserire la nuova immagine. E cosa succede se 10 grafici che avete inserito sono da cambiare? (`r emo::ji("scream")`)
-
----
-# Un esempio?
-
-Abbiamo un grafico, creato in R e vogliamo inserirlo nel documento:
+Immaginate di scrivere un report per un'analisi che avete fatto in R e vogliate inserire questo grafico:
 
 ```{r, out.width="50%"}
 mtcars %>% 
@@ -202,10 +206,32 @@ mtcars %>%
 ```
 
 ---
+# In word...
+
+.pull-left[
+
+In word dovreste:
+
+- creare il documento e scrivere tutta la parte di testo
+- inserire l'immagine da un file esterno
+- riposizionare e ridimensionare l'immagine, scrivere la caption
+
+Cosa succede se l'immagine cambia? Dovete manualmente eliminare l'immagine precedente e inserire la nuova immagine. E cosa succede se 10 grafici che avete inserito sono da cambiare? (`r emo::ji("scream")`)
+]
+
+.pull-right[
+
+```{r, out.width="80%"}
+knitr::include_graphics("img/word-meme3.jpg")
+```
+
+]
+
+---
 
 # Un esempio?
 
-Nel **literate programming** invece l'idea è che un certo elemento (ad esempio un grafico) viene creato con un pezzo di codice e quindi posso integrare il codice (e non l'immagine) con il testo. Essendo poi compilato, il testo sarà intepretato come testo ed il codice verrà sostuito dall'immagine.
+Nel **literate programming** invece l'idea è che un certo elemento (ad esempio un grafico) viene creato con un pezzo di codice che verrà intepretato.
 
 Questo è il codice per produrre il grafico:
 
@@ -219,6 +245,8 @@ mtcars %>%
 
 ---
 # Un esempio?
+
+--
 
 .pull-left[
 
@@ -238,9 +266,9 @@ mtcars %>%
 ```
 ]
 
---
-
 ]
+
+--
 
 .pull-right[
 
@@ -262,7 +290,9 @@ mtcars %>%
 
 # Literate programming (LP) in R?
 
-Come abbiamo visto, per utilizzare LP abbiamo bisogno di un linguaggio di **markup** (HTML, Latex, etc.) e ovviamente di un linguaggio di programmazione. Tra tutti i linguaggi di markup, uno in particolare è emerso recentemente per semplicità, facilità di lettura e si apprende in circa 30 minuti: Il linguaggio [**Markdown**](https://www.markdownguide.org/basic-syntax/).
+Come abbiamo visto, per utilizzare LP abbiamo bisogno di un linguaggio di **markup** (HTML, Latex, etc.) e ovviamente di un linguaggio di programmazione. 
+
+Tra tutti i linguaggi di markup, uno in particolare è emerso recentemente per semplicità, facilità di lettura e si apprende in circa 30 minuti: Il linguaggio [**Markdown**](https://www.markdownguide.org/basic-syntax/).
 
 .pull-left[
 
@@ -285,7 +315,7 @@ knitr::include_graphics("img/markdown-logo.svg")
 
 # R Markdown
 
-R Markdown è la fusione del linguaggio Markdown e dell'ambiente R per poter creare documenti, slide, siti web, curriculum, tesi, articoli scientifici `combinando codice e testo`.
+R Markdown è la fusione dei linguaggi Markdown e R per poter creare documenti, slide, siti web, curriculum, tesi, articoli scientifici `combinando codice e testo`.
 
 ```{r out.width="100%"}
 knitr::include_graphics("img/rmd-example.png")
@@ -296,6 +326,8 @@ knitr::include_graphics("img/rmd-example.png")
 # Perchè R Markdown?
 
 Scrivendo in `HTML` possiamo principalmente scrivere documenti `HTML` (visualizzabili con un browser web). Scrivendo in Latex possiamo creare principalmente documenti `PDF`. Il linguaggio Markdown può essere usato per produrre qualsiasi tipo di documento<sup>1</sup>:
+
+--
 
 ```{r out.width="100%"}
 knitr::include_graphics("img/rmd-workflow.png")
@@ -311,6 +343,11 @@ knitr::include_graphics("img/rmd-workflow.png")
 ```{r, out.width="55%"}
 knitr::include_graphics("img/big-picture.svg")
 ```
+
+---
+class: inverse, center, middle
+
+# YAML Header
 
 ---
 # YAML Header
@@ -333,11 +370,7 @@ Ci sono tantissime opzioni che dipendono:
 - dal tipo di output (html, pdf, word, etc.)
 
 ---
-class: inverse, center, middle
 
-# YAML Header
-
----
 # YAML Header
 
 L'unica cosa importante è scrivere questa sezione in modo corretto. Lo `YAML` è un linguaggio di markup intpretato come codice e richiede delle regole:
@@ -583,7 +616,7 @@ knitr::include_graphics("img/scholar-bib.png")
 
 Poi trovate questo, che estrae le informazioni rilevanti in un formato (`.bib`) leggibile da R
 
-```bib
+```
 @article{vogel2004,
   title={Neural activity predicts individual differences in visual working memory capacity},
   author={Vogel, Edward K and Machizawa, Maro G},
@@ -689,9 +722,67 @@ Le potenzialità di RMarkdown sono immense ma anche la curva di apprendimento è
   - gestire a mano la bibliografia
   
 ---
+# Resources
+
+Tutto il materiale che riguarda l'introduzione a R Markdown si trova nella repository `r icons::fontawesome("github")` [rmarkdown-intro](filippogambarota.github.io/rmarkdown-intro). Potete accedere anche il sito direttamente [link](https://filippogambarota.github.io/rmarkdown-intro/) Dove trovate:
+
+- il codice per riprodurre queste slide
+- i template di documenti, slide ed esercizi
+- alcuni riferimenti come libri, tutorial e siti utili
+
+```{r, out.width="90%"}
+knitr::include_graphics("img/git-repo.png")
+```
+
+---
+class: inverse, center, middle
+
+# Some extras...
+
+---
+# Trackdown
+
+.pull-left[
+
+Vi segnalo **Trackdown**, un pacchetto R creato e mantenuto da [Claudio Zandonella Callegher](https://github.com/ClaudioZandonella/trackdown) al quale ho partecipato anche io.
+
+Il pacchetto vi permette di lavorare su documenti R Markdown in modo collaborativo usando Google Docs. Se volete saperne di più è disponibile un [video](https://www.powtoon.com/embed/bWtc2qqbZ5F/) introduttivo
+
+]
+
+.pull-right[
+
+```{r, out.width="100%"}
+knitr::include_graphics("img/trackdown.png")
+```
+
+]
+
+---
+# Per approfondire...
+
+Se volete ulteriormente approfondire, il Dipartimento di Psicologia dello Sviluppo e della Socializzazione sta organizzando dei corsi avanzati su argomenti utili nella ricerca (Applied Research Courses Academy, [ARCA](https://www.dpss.unipd.it/arca/home))
+
+.pull-left[
+
+In particolare, la Dott.ssa Ottavia Epifania tiene un corso approfondito su R Markdown https://www.dpss.unipd.it/arca/RMarkdown
+
+]
+
+.pull-right[
+
+```{r, out.width="80%"}
+knitr::include_graphics("img/arca_logo.svg")
+```
+
+]
+
+
+
+---
 class: final-slide, center, middle
 
-# You are ready to create amazing documents `r emo::ji("smile")`
+# Are you ready to create amazing documents? `r emo::ji("smile")`
 
 ```{r, out.width="60%"}
 knitr::include_graphics("img/final-meme.png")
@@ -699,8 +790,9 @@ knitr::include_graphics("img/final-meme.png")
 
 </br>
 
-.contact[`r icons::fontawesome("envelope")` filippo.gambarota@gmail.com]
+.contact[`r icons::fontawesome("envelope")` **filippo.gambarota@gmail.com**]
 </br>
-.contact[`r icons::fontawesome("twitter")` @fgambarota]
+.contact[`r icons::fontawesome("twitter")` **@fgambarota**]
 </br>
-.contact[`r icons::fontawesome("github")` filippogambarota]
+.contact[`r icons::fontawesome("github")` **filippogambarota**]
+.logo[]
