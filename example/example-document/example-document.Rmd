@@ -1,0 +1,152 @@
+---
+title: "Amazing Document"
+author: "Filippo Gambarota"
+date: "Updated on `r Sys.Date()`"
+output: 
+  pdf_document:
+    toc: true
+    #number_sections: true
+  html_document:
+    #number_sections: true
+    toc: true
+    toc_float: true
+    keep_md: true
+bibliography: files/references.bib
+csl: files/apa7.csl
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r functions}
+# Qui definiamo delle funzioni che possono essere utili globalmente
+
+mean_sd <- function(x){
+  sprintf("(M = %s, SD = %s)",
+          round(mean(x), 2),
+          round(sd(x), 2))
+}
+```
+
+# Sintassi Markdown
+
+Abbiamo visto che la sintassi Mardown è molto semplice e leggibile. Possiamo mettere in **grassetto**, *corsivo* ed anche ~~barrare~~ una parola. 
+
+Gli spazi   tra le parole non vengono intepretati come in Word, infatti possiamo mettere quanti spazi      vogliamo (visibile solo nel file `.Rmd`) ma il risultato sarà sempre lo stesso.
+
+Per fare un nuovo paragrafo (a capo con uno spazio) dobbiamo inserire una linea vuota tra una porzione di testo e l'altra.
+
+```
+... e con questo finiamo il primo paragrafo.
+
+In questo modo possiamo avere un nuovo paragrafo. 
+Se non mettiamo la linea bianca il testo continuerà sulla stessa riga.
+```
+
+Se vogliamo inserire una porzione di codice, senza eseguirlo ma solo per distinguerlo dal testo possiamo racchiudere il testo tra 3 backticks:
+
+```
+print("Hello World!")
+```
+
+Se vogliamo possiamo anche specificare il linguaggio del codice in modo da evidenziare le parti principali:
+
+```python
+x = 1:10
+print(x)
+```
+
+Possiamo anche usare il codice inline usando 2 backtics per differenziare una porzione di `codice` direttamente nel testo.
+
+Possiamo inserire delle footnotes usando la sintassi `^[testo]` dove `testo` è il contenuto della footnote. Questo è comodo perchè la scriviamo direttamente nel testo e non alla fine della pagina^[Questa è la mia footnote].
+
+In generale, possiamo usare tutta la sintassi Markdown, e ci sono moltissime guide per impararla.
+
+# Sintassi R Markdown
+
+Essendo R Markdown l'implementazione del linguaggio R, la sintassi per alcune operazioni è leggermente diversa da quella markdown. Per esempio il blocco di codice:
+
+```r
+x <- 1:10
+print(x)
+```
+E' un blocco di codice generico che non viene interpretato. Se usiamo la sintassi di R Markdown:
+
+```{r}
+x <- 1:10
+print(x)
+```
+
+Allora il codice viene anche eseguito e il risultato viene inserito direttamente nel documento.
+
+Lo stesso vale per un grafico:
+
+```{r}
+plot(mtcars$mpg, mtcars$disp, pch = 19)
+```
+
+# Citazioni
+
+Anche le citazioni sono facilissime da inserire. Quando citiamo nel testo vogliamo citare nel classico modo `(autore, anno)` oppure usare solo `(anno)` perchè citiamo il nome nel testo principale. Possiamo citare specificando il file `.bib` nello `YAML` e poi `[@key]`:
+
+- citazione normale: [@xie2018r]
+- citazione senza autore: [-@xie2018r]
+- citazione multipla: [@xie2018r; @vogel2004]
+
+Chiaramente se dovete cambiare lo stile (e.g., da APA a Chicago), sarà sufficiente cambiare il file `.csl` e ricompilare il documento. Le citazioni vengono poi inserite in automatico alla fine del documento.
+
+# La vera potenza di R Markdown
+
+Il vero aspetto centrale di R Markdown è quello di poter automatizzare alcune operazioni che di solito sono tediose e con alta proababilità di errore. Ad esempio se dobbiamo riportare delle statistiche, solitamente dobbiamo scrivere manualmente i numeri, le parentesi, etc. Mentre se usiamo un documento R Markdown, codice, dati e testo sono tutti insieme. Facciamo un esempio:
+
+Usiamo il dataset presente in R `mtcars` e immaginiamo sia il vostro dataset che dovere usare per la tesi o per il vostro report di analisi.
+
+```{r}
+mtcars
+```
+
+Solitamente nel metodo di un articolo o di un report è necessario descrivere il dataset e riportare alcune statistiche descrittive. Con R Markdown posso usare dei code chunks (sia inline che come blocco) e usare delle funzioni R che producono del testo, senza scrivere direttamente i valori.
+
+> Ad esempio: Il dataset `mtcars` ha `r nrow(mtcars)` osservazioni e `r ncol(mtcars)` variabili. La variabile più importante è `mpg` `r mean_sd(mtcars$mpg)` (se state guardando il documento compilato guardate nel file `.Rmd` come i numeri vengono generati).
+
+Questo diventa ancora più rilevante se i dati in input cambiano. Se dobbiamo analizzare nuovamente i dati, cambiare delle parti o aggiornare, normalmente è necessario riscrivere tutto. In questo caso, semplicemente cambiando `mtcars` possiamo aggiornare tutto il testo che è legato ad `mtcars`:
+
+```{r}
+# aggiungo 10 righe a mtcars per simulare il fatto che i dati sono cambiati
+mtcars <- rbind(mtcars, mtcars[1:10, ])
+```
+
+Ora "eseguo" nuovamente il codice di prima, come vedete (se state guardando il documento compilato guardate nel file `.Rmd` come i numeri vengono generati) tutto viene aggiornato senza cambiare nulla:
+
+> Ad esempio: Il dataset `mtcars` ha `r nrow(mtcars)` osservazioni e `r ncol(mtcars)` variabili. La variabile più importante è `mpg` `r mean_sd(mtcars$mpg)` (se state guardando il documento compilato guardate nel file `.Rmd` come i numeri vengono generati).
+
+## Statistiche più complesse
+
+Spesso dobbiamo creare tabelle da inserire nel nostro documento. Per esempio la tabella di un'analisi che abbiamo fatto. Fittiamo un modello di regressione lineare con il dataset `iris` e proviamo a predirre `Sepal.Length` con il fattore a 3 livelli `Species` (nota nel file `Rmd` come alcuni chunk vengono eseguiti in base all'output inserito):
+
+```{r}
+fit <- lm(Sepal.Length ~ Species, data = iris)
+summary(fit)
+```
+
+Ora vogliamo riportare tutti i valori (stime, confidence intervals e p-values) in una tabella. Possiamo crearla a mano, ma perchè non automatizzare il tutto. Ad esempio il pacchetto `sjPlot` ha diverse funzioni come `sjPlot::tab_model()`:
+
+```{r, include=knitr::is_html_output()}
+sjPlot::tab_model(fit)
+```
+
+Attenzione che non tutti gli output funzionano. Per esempio `sjPlot` funziona con documenti `html` mentre altri pacchetti (e.g., `stargazer`) funzionano con `pdf`:
+
+```{r, results='asis', include=knitr::is_latex_output()}
+stargazer::stargazer(fit, header=FALSE, type='latex')
+```
+
+Possiamo anche creare un grafico direttamente dal modello usando il bellissimo pacchetto `effects`:
+
+```{r}
+# prende un modello e plotta gli effetti
+plot(effects::allEffects(fit)) 
+```
+
+# Bibliografia
