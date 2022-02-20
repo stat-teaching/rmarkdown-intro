@@ -1,0 +1,53 @@
+---
+title: "Awesome Presentation"
+author: "Nome Cognome"
+date: "`r Sys.Date()`"
+output: 
+  ioslides_presentation: default
+  beamer_presentation:
+    theme: "Madrid"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      fig.align = "center")
+```
+
+```{r functions}
+mean_sd <- function(x){
+  sprintf("(M = %s, SD = %s)",
+          round(mean(x), 2),
+          round(sd(x), 2))
+}
+```
+
+# Possiamo fare anche le slide!
+
+## Possiamo fare anche le slide!
+
+Si possiamo fare anche le slide, semplicemente cambiando lo `YAML` e avere qualche accortezza sulla formattazione. Però la sintassi R Markdown è sempre la stessa!
+
+```{r out.width="50%"}
+knitr::include_graphics("img/wow-meme.jpg")
+```
+
+## Tornando seri, riportare analisi
+
+Come per i documenti normali, anche qui possiamo produrre grafici, tabelle e statistiche in modo automatizzato.
+
+Sempre il nostro dataset `mtcars`:
+
+```{r}
+head(mtcars)
+```
+
+## Tornando seri, riportare analisi
+
+> Ad esempio: Il dataset `mtcars` ha `r nrow(mtcars)` osservazioni e `r ncol(mtcars)` variabili. La variabile più importante è `mpg` `r mean_sd(mtcars$mpg)` (se state guardando il documento compilato guardate nel file `.Rmd` come i numeri vengono generati).
+
+## ... e ovviamente anche grafici
+
+```{r, out.width="100%"}
+fit <- lm(Sepal.Length ~ Species, data = iris)
+plot(effects::allEffects(fit))
+```
