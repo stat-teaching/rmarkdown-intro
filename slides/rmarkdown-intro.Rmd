@@ -6,7 +6,7 @@ institute: "Università di Padova"
 date: "`r Sys.Date()`"
 output:
   xaringan::moon_reader:
-    css: [default, metropolis, metropolis-fonts]
+    css: [default, "files/metropolis.css", "files/metropolis-fonts.css"]
     nature:
       highlightStyle: github
       highlightLines: true
@@ -18,7 +18,22 @@ options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(echo = FALSE,
                       fig.align = "center",
                       dpi = 300,
-                      fig.retina = 2)
+                      fig.retina = 2,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+```{r packages}
+library(tidyverse)
+```
+
+
+```{r functions}
+
+# inline code formatting thanks to https://stackoverflow.com/a/20419016/9032257
+rinline <- function(code){
+  sprintf("<code>&grave;r %s&grave;</code>", code)
+}
 ```
 
 # Making documents...
@@ -39,10 +54,14 @@ knitr::include_graphics("img/word-example.png")
 
 Sicuramente però vi sarà capitato di dover fare operazioni complesse come:
 
+--
+
 - gestire documenti con molte pagine
 - inserire (o modificare `r emo::ji("scream")`) figure e tabelle
 - gestire bibliografia
 - numerare paragrafi, tabelle e immagini
+
+--
 
 .pull-left[
 
@@ -169,45 +188,73 @@ Immaginate di scrivere un report per un'analisi che avete fatto in R e vogliate 
 
 Cosa succede se l'immagine cambia? Dovete manualmente eliminare l'immagine precedente e inserire la nuova immagine. E cosa succede se 10 grafici che avete inserito sono da cambiare? (`r emo::ji("scream")`)
 
-.pull-left[
+---
+# Un esempio?
 
-```{r}
-knitr::include_graphics("img/plot-example.png")
+Abbiamo un grafico, creato in R e vogliamo inserirlo nel documento:
+
+```{r, out.width="50%"}
+mtcars %>% 
+  ggplot(aes(x = mpg, y = disp)) +
+  geom_point(size = 3) +
+  geom_smooth(method = "lm") +
+  cowplot::theme_minimal_grid(font_size = 20)
 ```
-
-]
-
-.pull-right[
-
-```{r}
-knitr::include_graphics("img/word-with-plot.png")
-```
-
-]
 
 ---
 
 # Un esempio?
 
-Nel **literate programming** invece l'idea è che un certo elemento (ad esempio un grafico) viene creato con un pezzo di codice (esempio in R) e quindi posso integrare il codice (e non l'immagine) con il testo. Essendo poi compilato, il testo sarà intepretato come testo ed il codice verrà sostuito dall'immagine:
+Nel **literate programming** invece l'idea è che un certo elemento (ad esempio un grafico) viene creato con un pezzo di codice e quindi posso integrare il codice (e non l'immagine) con il testo. Essendo poi compilato, il testo sarà intepretato come testo ed il codice verrà sostuito dall'immagine.
+
+Questo è il codice per produrre il grafico:
+
+```{r echo=TRUE, eval=FALSE}
+mtcars %>% 
+  ggplot(aes(x = mpg, y = disp)) +
+  geom_point(size = 3) +
+  geom_smooth(method = "lm") +
+  cowplot::theme_minimal_grid(font_size = 20)
+```
+
+---
+# Un esempio?
 
 .pull-left[
 
-```{r echo=TRUE, eval=FALSE}
-x <- rnorm(100)
-y <- x*0.5 + rnorm(100) # correlazione di 0.5
-plot(x, y, pch = 19)
+.markdown[
+
 ```
+... testo
+
+mtcars %>% 
+  ggplot(aes(x = mpg, y = disp)) +
+  geom_point(size = 3) +
+  geom_smooth(method = "lm") +
+  cowplot::theme_minimal_grid(font_size = 20)
+
+... ancora testo
+
+```
+]
+
+--
 
 ]
 
 .pull-right[
 
-```{r out.width="40%"}
-x <- rnorm(100)
-y <- x*0.5 + rnorm(100) # correlazione di 0.5
-plot(x, y, pch = 19)
+... testo
+
+```{r, out.width="70%", fig.cap="Figure 1. Awesome figure!"}
+mtcars %>% 
+  ggplot(aes(x = mpg, y = disp)) +
+  geom_point(size = 3) +
+  geom_smooth(method = "lm") +
+  cowplot::theme_minimal_grid(font_size = 20)
 ```
+
+... ancora testo
 
 ]
 
@@ -238,23 +285,11 @@ knitr::include_graphics("img/markdown-logo.svg")
 
 # R Markdown
 
-R Markdown è la fusione del linguaggio Markdown e dell'ambiente R per poter creare documenti, slide, siti web, curriculum, tesi, articoli scientifici combinando codice e testo.
+R Markdown è la fusione del linguaggio Markdown e dell'ambiente R per poter creare documenti, slide, siti web, curriculum, tesi, articoli scientifici `combinando codice e testo`.
 
-.pull-left[
-
-```{r}
-knitr::include_graphics("img/rmd-logo.png")
-```
-
-]
-
-.pull-right[
-
-```{r comment=''}
+```{r out.width="100%"}
 knitr::include_graphics("img/rmd-example.png")
 ```
-
-]
 
 ---
 
@@ -267,17 +302,405 @@ knitr::include_graphics("img/rmd-workflow.png")
 ```
 
 .footnote[
-[R Markdown Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook/rmarkdown-process.html))
+[R Markdown Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook/rmarkdown-process.html)
 ]
 
+---
+# The Big Picture
 
+```{r, out.width="55%"}
+knitr::include_graphics("img/big-picture.svg")
+```
 
+---
+# YAML Header
 
+All'inizo di ogni documento RMarkdown è presente una sezione (YAML header) dove indicare le impostazioni generali del documento:
 
+```
+---
+title: "Document Title"
+author: "Autore"
+date: "2/18/2022"
+output: html_document
+---
 
+```
 
+Ci sono tantissime opzioni che dipendono:
 
+- dal tipo di documento (presentazione, report, tesi, etc.)
+- dal tipo di output (html, pdf, word, etc.)
 
+---
+class: inverse, center, middle
 
+# YAML Header
 
+---
+# YAML Header
 
+L'unica cosa importante è scrivere questa sezione in modo corretto. Lo `YAML` è un linguaggio di markup intpretato come codice e richiede delle regole:
+
+- `argomento: valore`
+- indendazione corretta (spazi, a capo)
+- argomenti corretti (esempio `output: html-document` è sbagliato, vi darà errore)
+
+--
+
+In generale lo `YAML` equivale alle impostazioni di un normale documento word che controlla i vari metadati, struttura, etc.
+La maggior parte delle volte non dovete scrivere questa sezione manualmente o comunque ci sono diversi template dove al massimo aggiustare alcune parti.
+
+---
+class: inverse, center, middle
+
+# Body
+
+---
+
+# Body - Testo
+
+Il corpo del documento è la parte principaleche viene intesa come **testo** letteralmente. In questo caso dobbiamo scrivere (utilizzando un linguaggio di markup) quello che vogliamo sia visualizzato nel risultato finale:
+
+.markdown[
+
+```
+---
+title: "Document Title"
+author: "Autore"
+date: "2/18/2022"
+output: html_document
+---
+
+# Heading 1
+
+Questo è il mio primo documento in **RMarkdown**. 
+
+Effettivamente all'inizio è un *pochino strano* non visualizzare subito il risultato 
+finale ma i vantaggi sono tantissimi! Aspettate di vedere quando useremo il `codice`.
+
+## Heading 2
+
+Vi renderete conto, dopo averlo utilizzato un pochino, che è facile da leggere e scrivere
+anche se non è esattamente immediato come un documento word.
+
+```
+]
+
+---
+# Body - Codice
+
+Ci sono due tipi di codice che potete inserire in un documento RMarkdown:
+
+- **code chunks**
+- `inline code`
+
+La differenza è che i code chunks sono operazioni più complesse che sono chiaramente distinte dal testo mentre gli inline code sono parte integrante del testo.
+
+.pull-left[
+
+````
+```{r, eval=TRUE}`r ''`
+print(1:5)
+```
+````
+
+```{r}
+print(1:5)
+```
+
+]
+
+.pull-right[
+
+Questo invece è un inline-code. Se voglio scrivere il numero `10` posso fare anche in questo modo: scrivo il numero `r cat(10)`. Non si vede direttamente dalle slide ma io non ho scritto *verbatim* il numero 10 ma è il risultato di `r rinline("5+5")`
+
+]
+
+---
+
+# Codice - Chunks
+
+Vediamo più nel dettaglio come è composto un chunk di codice:
+
+```{r}
+knitr::include_graphics("img/chunk-options.svg")
+```
+
+---
+
+# Codice - Inline
+
+Il formato dell'inline invece è più semplice, si utilizzano i backticks `r rinline("codice")`. L'espressione viene quindi intepretata come codice ed il risultato viene inserito all'interno del testo. Immaginiamo di avere un oggetto R salvato nell'ambiente principale:
+
+```{r}
+x <- rnorm(10)
+print(x)
+```
+
+Se durante il testo vogliamo fare riferimento all'oggetto `x` possiamo riportare caratteristiche di `x` senza esplicitamente scrivere i numeri:
+
+- La media di `x` è `r rinline("mean(x)")` -> `r mean(x)`
+- La deviazione standard di `x` è `r rinline("sd(x)")` -> `r sd(x)`
+- L'errore standard della media di `x` è `r rinline("sd(x)/sqrt(length(x))")` -> `r sd(x)/sqrt(length(x))`
+
+---
+class: inverse, center, middle
+
+# Espressioni Matematiche
+---
+
+# Espressioni Matematiche
+
+Qualche volta dobbiamo scrivere espressioni matematiche $\frac{x}{2}$, lettere greche $\mu_x$ o espressioni complesse $y_i = \beta_0 + \beta_{1}X_{1} + \epsilon_i$. In word queste sono estremamente complesse da scrivere mentre in RMardown è sufficiente imparare la sintassi di Latex:
+
+- `$\frac{x}{2}$` -> $\frac{x}{2}$
+- `$y_i = \beta_0 + \beta_{1}X_{1}$ + \epsilon_i$`->  $y_i = \beta_0 + \beta_{1}X_{1} + \epsilon_i$
+
+Qualche tutorial su come scrivere formule e simboli in RMarkdown:
+
+- https://rpruim.github.io/s341/S19/from-class/MathinRmd.html
+- https://rmd4sci.njtierney.com/math
+
+---
+class: inverse, center, middle
+
+# Immagini
+---
+
+# Codice - Immagini
+
+Per inserire immagini possiamo utilizzare la **sintassi markdown** oppure **codice R**:
+
+.pull-left[
+</br>
+
+`![](img/ex-img1.png)`
+![](img/ex-img1.png)
+
+]
+
+.pull-right[
+
+````
+```{r, fig.cap = "The caption of my image"}`r ''`
+knitr::include_graphics("img/ex-img2.png")
+```
+````
+```{r, fig.cap="The caption of my image"}
+knitr::include_graphics("img/ex-img2.jpg")
+```
+
+]
+
+---
+class: inverse, center, middle
+
+# Tabelle
+
+---
+
+# Tabelle
+
+Le tabelle sono un pochino più complicate da creare completamente a mano (anche se ci sono [soluzioni](https://www.tablesgenerator.com/markdown_tables) più automatiche). La sintassi Markdown è la seguente:
+
+```markdown
+| Colonna1 | Colonna2 | Colonna3 |
+|----------|----------|----------|
+| 1        | 4        | 7        |
+| 2        | 5        | 8        |
+| 3        | 6        | 9        |
+```
+
+Crea questa tabella:
+
+| Colonna1 | Colonna2 | Colonna3 |
+|----------|----------|----------|
+| 1        | 4        | 7        |
+| 2        | 5        | 8        |
+| 3        | 6        | 9        |
+
+---
+# Tabelle
+
+Solitamente però le tabelle sono: **statistiche descrittive** o **risultati di modelli statistici**. In questo caso crearle è estramamente semplice ed efficiente con alcuni pacchetti R basandosi su `modelli` salvati come oggetto o da `dataframe`:
+
+```{r}
+iris_summ <- iris %>% 
+  group_by(Species) %>% 
+  summarise(mean = mean(Sepal.Length),
+            sd = sd(Sepal.Length),
+            se = sd/sqrt(n()),
+            min = min(Sepal.Length),
+            max = max(Sepal.Length))
+iris_summ
+```
+
+---
+# Tabelle
+
+```{r, echo = TRUE}
+library(kableExtra)
+
+iris_summ %>% 
+  kable() %>% 
+  kable_styling(bootstrap_options = c("condensed", "striped"),
+                full_width = FALSE)
+```
+
+---
+
+# Tabelle
+
+Ci sono alcuni pacchetti (e.g., `sjplot`) che partendo da un modello fittato in R creano una tabella pronta per essere messa in un paper o nella tesi:
+
+```{r}
+fit <- lm(mpg ~ disp + qsec + gear, data = mtcars)
+```
+
+```{r, echo = TRUE}
+library(sjPlot)
+sjPlot::tab_model(fit)
+```
+
+---
+class: inverse, center, middle
+
+# Gestire Bibliografia?
+---
+
+# Gestire Bibliografia
+
+Anche la gestione della bibliografia è estremamente semplice. L'idea è di avere un file `.bib` con tutti i riferimenti che vogliamo citare. I file bib possono essere generati dai vari software per gestire la bibliografia (Mendeley, Zotero, etc.) oppure direttamente dai database (Google Scholar):
+
+```{r, out.width="80%"}
+knitr::include_graphics("img/scholar-bib.png")
+```
+
+---
+
+# Gestire Bibliografia
+
+Poi trovate questo, che estrae le informazioni rilevanti in un formato (`.bib`) leggibile da R
+
+```bib
+@article{vogel2004,
+  title={Neural activity predicts individual differences in visual working memory capacity},
+  author={Vogel, Edward K and Machizawa, Maro G},
+  journal={Nature},
+  volume={428},
+  number={6984},
+  pages={748--751},
+  year={2004},
+  publisher={Nature Publishing Group}
+}
+```
+
+---
+
+# Gestire Bibliografia
+
+Aggiornando lo `YAML` con il percorso del file `.bib` ed eventualmente un file `.csl` (che definisce lo stile della bibligrafia, e.g., APA 7th):
+
+```
+---
+title: "Document Title"
+author: "Autore"
+date: "2/18/2022"
+output: html_document
+*bibliography: files/references.bib
+*csl: files/apa7.csl
+---
+
+```
+
+Poi potete durante la scrittura inserire una citazione inline `[@vogel2004]` e questa verrà inserita come citazione inline (Vogel & Machizawa, 2004) e come citazione alla fine in termini voce bibliografica completa:
+
+- Vogel, E. K., & Machizawa, M. G. (2004). Neural activity predicts individual differences in visual working memory capacity. *Nature*, 428(6984), 748-751.
+
+---
+class: inverse, center, middle
+
+# Come organizzare un documento
+
+---
+# Come organizzare un documento
+
+Solitamente siamo abituati ad avere un unico documento, ad esempio `documento.docx` che contiene tutto. Quando lavoriamo con R Markdown dobbiamo organizzarci in modo diverso:
+
+.pull-left[
+
+```
+  📦rmarkdown
+   ┣ 📂files
+   ┃ ┣ 📜apa7.cls
+   ┃ ┗ 📜references.bib
+   ┣ 📂img
+   ┃ ┗ 📜img1.png
+*  ┣ 📜document.Rmd
+   ┣ 📜document.html
+   ┣ 📜document.pdf
+   ┗ 📜document.word
+```
+]
+
+--
+
+.pull-rigth[
+
+Esiste il file `.Rmd` e tutti i file secondari (immagini, bibliografia, etc.). Il file `.Rmd` viene compilato per creare poi i vari output (`.html`, `.pdf`, `.word`, etc.)
+
+]
+
+---
+class: inverse, center, middle
+
+# Altre cose che posso fare?
+
+---
+# Altre cose che posso fare?
+
+- Slides (queste slides sono fatte in RMarkdown)
+  - [Xaringan](https://github.com/yihui/xaringan)
+- Curriculum (ci sono dei template)
+  - [Vitae](https://github.com/mitchelloharawild/vitae)
+  - [Pagedown](https://github.com/rstudio/pagedown)
+- Libri
+  - [Bookdown](https://pkgs.rstudio.com/bookdown/)
+- Siti web
+  - [Blogdown](https://pkgs.rstudio.com/blogdown/)
+  - [Distill](https://rstudio.github.io/distill/)
+
+---
+class: inverse, center, middle
+
+# Qualche consiglio finale
+
+---
+# Qualche consiglio finale
+
+Le potenzialità di RMarkdown sono immense ma anche la curva di apprendimento è notevole, sopratutto di funzioni più avanzate. Quindi:
+
+- Trovate un **template** per le vostre esigenze (report, tesi), scrivendo `rmarkdown template` su Google
+- Se avete necessità, modificate alcune parti del template in modo da capire anche le funzionalità più avanzate
+- Non preoccupatevi più di:
+  - copiare e incollare numeri, statistiche e risultati
+  - spostare manualmente tabelle e immagini
+  - gestire a mano la bibliografia
+  
+---
+class: final-slide, center, middle
+
+# You are ready to create amazing documents `r emo::ji("smile")`
+
+```{r, out.width="60%"}
+knitr::include_graphics("img/final-meme.png")
+```
+
+</br>
+
+.contact[`r icons::fontawesome("envelope")` filippo.gambarota@gmail.com]
+</br>
+.contact[`r icons::fontawesome("twitter")` @fgambarota]
+</br>
+.contact[`r icons::fontawesome("github")` filippogambarota]

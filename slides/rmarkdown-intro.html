@@ -4,11 +4,13 @@
     <title>Introduzione a R Markdown</title>
     <meta charset="utf-8" />
     <meta name="author" content="Filippo Gambarota" />
-    <meta name="date" content="2022-02-13" />
+    <meta name="date" content="2022-02-20" />
     <script src="rmarkdown-intro_files/header-attrs/header-attrs.js"></script>
     <link href="rmarkdown-intro_files/remark-css/default.css" rel="stylesheet" />
-    <link href="rmarkdown-intro_files/remark-css/metropolis.css" rel="stylesheet" />
-    <link href="rmarkdown-intro_files/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <script src="rmarkdown-intro_files/kePrint/kePrint.js"></script>
+    <link href="rmarkdown-intro_files/lightable/lightable.css" rel="stylesheet" />
+    <link rel="stylesheet" href="files/metropolis.css" type="text/css" />
+    <link rel="stylesheet" href="files/metropolis-fonts.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -18,9 +20,14 @@ class: center, middle, inverse, title-slide
 ## <br/>Create amazing documents with R
 ### Filippo Gambarota
 ### Università di Padova
-### 2022-02-13
+### 2022-02-20
 
 ---
+
+
+
+
+
 
 
 
@@ -41,10 +48,14 @@ Probabilmente **Microsoft Word** oppure **Google Docs**. Sono ottimi software, m
 
 Sicuramente però vi sarà capitato di dover fare operazioni complesse come:
 
+--
+
 - gestire documenti con molte pagine
 - inserire (o modificare 😱) figure e tabelle
 - gestire bibliografia
 - numerare paragrafi, tabelle e immagini
+
+--
 
 .pull-left[
 
@@ -163,38 +174,65 @@ Immaginate di scrivere un report per un'analisi che avete fatto in R e vogliate 
 
 Cosa succede se l'immagine cambia? Dovete manualmente eliminare l'immagine precedente e inserire la nuova immagine. E cosa succede se 10 grafici che avete inserito sono da cambiare? (😱)
 
-.pull-left[
+---
+# Un esempio?
 
-&lt;img src="img/plot-example.png" width="181" style="display: block; margin: auto;" /&gt;
+Abbiamo un grafico, creato in R e vogliamo inserirlo nel documento:
 
-]
-
-.pull-right[
-
-&lt;img src="img/word-with-plot.png" width="151" style="display: block; margin: auto;" /&gt;
-
-]
+&lt;img src="rmarkdown-intro_files/figure-html/unnamed-chunk-6-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # Un esempio?
 
-Nel **literate programming** invece l'idea è che un certo elemento (ad esempio un grafico) viene creato con un pezzo di codice (esempio in R) e quindi posso integrare il codice (e non l'immagine) con il testo. Essendo poi compilato, il testo sarà intepretato come testo ed il codice verrà sostuito dall'immagine:
+Nel **literate programming** invece l'idea è che un certo elemento (ad esempio un grafico) viene creato con un pezzo di codice e quindi posso integrare il codice (e non l'immagine) con il testo. Essendo poi compilato, il testo sarà intepretato come testo ed il codice verrà sostuito dall'immagine.
 
-.pull-left[
+Questo è il codice per produrre il grafico:
 
 
 ```r
-x &lt;- rnorm(100)
-y &lt;- x*0.5 + rnorm(100) # correlazione di 0.5
-plot(x, y, pch = 19)
+mtcars %&gt;% 
+  ggplot(aes(x = mpg, y = disp)) +
+  geom_point(size = 3) +
+  geom_smooth(method = "lm") +
+  cowplot::theme_minimal_grid(font_size = 20)
 ```
+
+---
+# Un esempio?
+
+.pull-left[
+
+.markdown[
+
+```
+... testo
+
+mtcars %&gt;% 
+  ggplot(aes(x = mpg, y = disp)) +
+  geom_point(size = 3) +
+  geom_smooth(method = "lm") +
+  cowplot::theme_minimal_grid(font_size = 20)
+
+... ancora testo
+
+```
+]
+
+--
 
 ]
 
 .pull-right[
 
-&lt;img src="rmarkdown-intro_files/figure-html/unnamed-chunk-9-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+... testo
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="rmarkdown-intro_files/figure-html/unnamed-chunk-8-1.png" alt="Figure 1. Awesome figure!" width="70%" /&gt;
+&lt;p class="caption"&gt;Figure 1. Awesome figure!&lt;/p&gt;
+&lt;/div&gt;
+
+... ancora testo
 
 ]
 
@@ -223,19 +261,9 @@ Come abbiamo visto, per utilizzare LP abbiamo bisogno di un linguaggio di **mark
 
 # R Markdown
 
-R Markdown è la fusione del linguaggio Markdown e dell'ambiente R per poter creare documenti, slide, siti web, curriculum, tesi, articoli scientifici combinando codice e testo.
+R Markdown è la fusione del linguaggio Markdown e dell'ambiente R per poter creare documenti, slide, siti web, curriculum, tesi, articoli scientifici `combinando codice e testo`.
 
-.pull-left[
-
-&lt;img src="img/rmd-logo.png" width="153" style="display: block; margin: auto;" /&gt;
-
-]
-
-.pull-right[
-
-&lt;img src="img/rmd-example.png" width="170" style="display: block; margin: auto;" /&gt;
-
-]
+&lt;img src="img/rmd-example.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -246,20 +274,487 @@ Scrivendo in `HTML` possiamo principalmente scrivere documenti `HTML` (visualizz
 &lt;img src="img/rmd-workflow.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 .footnote[
-[1] [R Markdown Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook/rmarkdown-process.html))
+[R Markdown Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook/rmarkdown-process.html)
 ]
 
+---
+# The Big Picture
+
+&lt;img src="img/big-picture.svg" width="55%" style="display: block; margin: auto;" /&gt;
+
+---
+# YAML Header
+
+All'inizo di ogni documento RMarkdown è presente una sezione (YAML header) dove indicare le impostazioni generali del documento:
+
+```
+---
+title: "Document Title"
+author: "Autore"
+date: "2/18/2022"
+output: html_document
+---
+
+```
+
+Ci sono tantissime opzioni che dipendono:
+
+- dal tipo di documento (presentazione, report, tesi, etc.)
+- dal tipo di output (html, pdf, word, etc.)
+
+---
+class: inverse, center, middle
+
+# YAML Header
+
+---
+# YAML Header
+
+L'unica cosa importante è scrivere questa sezione in modo corretto. Lo `YAML` è un linguaggio di markup intpretato come codice e richiede delle regole:
+
+- `argomento: valore`
+- indendazione corretta (spazi, a capo)
+- argomenti corretti (esempio `output: html-document` è sbagliato, vi darà errore)
+
+--
+
+In generale lo `YAML` equivale alle impostazioni di un normale documento word che controlla i vari metadati, struttura, etc.
+La maggior parte delle volte non dovete scrivere questa sezione manualmente o comunque ci sono diversi template dove al massimo aggiustare alcune parti.
+
+---
+class: inverse, center, middle
+
+# Body
+
+---
+
+# Body - Testo
+
+Il corpo del documento è la parte principaleche viene intesa come **testo** letteralmente. In questo caso dobbiamo scrivere (utilizzando un linguaggio di markup) quello che vogliamo sia visualizzato nel risultato finale:
+
+.markdown[
+
+```
+---
+title: "Document Title"
+author: "Autore"
+date: "2/18/2022"
+output: html_document
+---
+
+# Heading 1
+
+Questo è il mio primo documento in **RMarkdown**. 
+
+Effettivamente all'inizio è un *pochino strano* non visualizzare subito il risultato 
+finale ma i vantaggi sono tantissimi! Aspettate di vedere quando useremo il `codice`.
+
+## Heading 2
+
+Vi renderete conto, dopo averlo utilizzato un pochino, che è facile da leggere e scrivere
+anche se non è esattamente immediato come un documento word.
+
+```
+]
+
+---
+# Body - Codice
+
+Ci sono due tipi di codice che potete inserire in un documento RMarkdown:
+
+- **code chunks**
+- `inline code`
+
+La differenza è che i code chunks sono operazioni più complesse che sono chiaramente distinte dal testo mentre gli inline code sono parte integrante del testo.
+
+.pull-left[
+
+````
+```{r, eval=TRUE}
+print(1:5)
+```
+````
+
+
+```
+## [1] 1 2 3 4 5
+```
+
+]
+
+.pull-right[
+
+Questo invece è un inline-code. Se voglio scrivere il numero `10` posso fare anche in questo modo: scrivo il numero . Non si vede direttamente dalle slide ma io non ho scritto *verbatim* il numero 10 ma è il risultato di &lt;code&gt;&amp;grave;r 5+5&amp;grave;&lt;/code&gt;
+
+]
+
+---
+
+# Codice - Chunks
+
+Vediamo più nel dettaglio come è composto un chunk di codice:
+
+&lt;img src="img/chunk-options.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Codice - Inline
+
+Il formato dell'inline invece è più semplice, si utilizzano i backticks &lt;code&gt;&amp;grave;r codice&amp;grave;&lt;/code&gt;. L'espressione viene quindi intepretata come codice ed il risultato viene inserito all'interno del testo. Immaginiamo di avere un oggetto R salvato nell'ambiente principale:
+
+
+```
+##  [1] -0.03922545 -2.08337198 -0.85069482  0.36522475 -0.71000200  1.24911661
+##  [7] -0.24861689 -0.31838129 -0.21085269  0.54409360
+```
+
+Se durante il testo vogliamo fare riferimento all'oggetto `x` possiamo riportare caratteristiche di `x` senza esplicitamente scrivere i numeri:
+
+- La media di `x` è &lt;code&gt;&amp;grave;r mean(x)&amp;grave;&lt;/code&gt; -&gt; -0.230271
+- La deviazione standard di `x` è &lt;code&gt;&amp;grave;r sd(x)&amp;grave;&lt;/code&gt; -&gt; 0.8967144
+- L'errore standard della media di `x` è &lt;code&gt;&amp;grave;r sd(x)/sqrt(length(x))&amp;grave;&lt;/code&gt; -&gt; 0.283566
+
+---
+class: inverse, center, middle
+
+# Espressioni Matematiche
+---
+
+# Espressioni Matematiche
+
+Qualche volta dobbiamo scrivere espressioni matematiche `\(\frac{x}{2}\)`, lettere greche `\(\mu_x\)` o espressioni complesse `\(y_i = \beta_0 + \beta_{1}X_{1} + \epsilon_i\)`. In word queste sono estremamente complesse da scrivere mentre in RMardown è sufficiente imparare la sintassi di Latex:
+
+- `$\frac{x}{2}$` -&gt; `\(\frac{x}{2}\)`
+- `$y_i = \beta_0 + \beta_{1}X_{1}$ + \epsilon_i$`-&gt;  `\(y_i = \beta_0 + \beta_{1}X_{1} + \epsilon_i\)`
+
+Qualche tutorial su come scrivere formule e simboli in RMarkdown:
+
+- https://rpruim.github.io/s341/S19/from-class/MathinRmd.html
+- https://rmd4sci.njtierney.com/math
+
+---
+class: inverse, center, middle
+
+# Immagini
+---
+
+# Codice - Immagini
+
+Per inserire immagini possiamo utilizzare la **sintassi markdown** oppure **codice R**:
+
+.pull-left[
+&lt;/br&gt;
+
+`![](img/ex-img1.png)`
+![](img/ex-img1.png)
+
+]
+
+.pull-right[
+
+````
+```{r, fig.cap = "The caption of my image"}
+knitr::include_graphics("img/ex-img2.png")
+```
+````
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="img/ex-img2.jpg" alt="The caption of my image"  /&gt;
+&lt;p class="caption"&gt;The caption of my image&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+---
+class: inverse, center, middle
+
+# Tabelle
+
+---
+
+# Tabelle
+
+Le tabelle sono un pochino più complicate da creare completamente a mano (anche se ci sono [soluzioni](https://www.tablesgenerator.com/markdown_tables) più automatiche). La sintassi Markdown è la seguente:
+
+```markdown
+| Colonna1 | Colonna2 | Colonna3 |
+|----------|----------|----------|
+| 1        | 4        | 7        |
+| 2        | 5        | 8        |
+| 3        | 6        | 9        |
+```
+
+Crea questa tabella:
+
+| Colonna1 | Colonna2 | Colonna3 |
+|----------|----------|----------|
+| 1        | 4        | 7        |
+| 2        | 5        | 8        |
+| 3        | 6        | 9        |
+
+---
+# Tabelle
+
+Solitamente però le tabelle sono: **statistiche descrittive** o **risultati di modelli statistici**. In questo caso crearle è estramamente semplice ed efficiente con alcuni pacchetti R basandosi su `modelli` salvati come oggetto o da `dataframe`:
+
+
+```
+## # A tibble: 3 × 6
+##   Species     mean    sd     se   min   max
+##   &lt;fct&gt;      &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 setosa      5.01 0.352 0.0498   4.3   5.8
+## 2 versicolor  5.94 0.516 0.0730   4.9   7  
+## 3 virginica   6.59 0.636 0.0899   4.9   7.9
+```
+
+---
+# Tabelle
+
+
+```r
+library(kableExtra)
+
+iris_summ %&gt;% 
+  kable() %&gt;% 
+  kable_styling(bootstrap_options = c("condensed", "striped"),
+                full_width = FALSE)
+```
+
+&lt;table class="table table-condensed table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Species &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; mean &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; sd &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; se &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; min &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; max &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; setosa &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5.006 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3524897 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0498496 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5.8 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; versicolor &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5.936 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.5161711 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0729976 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7.0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; virginica &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6.588 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.6358796 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0899270 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7.9 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+# Tabelle
+
+Ci sono alcuni pacchetti (e.g., `sjplot`) che partendo da un modello fittato in R creano una tabella pronta per essere messa in un paper o nella tesi:
 
 
 
 
+```r
+library(sjPlot)
+sjPlot::tab_model(fit)
+```
 
+&lt;table style="border-collapse:collapse; border:none;"&gt;
+&lt;tr&gt;
+&lt;th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; "&gt;&amp;nbsp;&lt;/th&gt;
+&lt;th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; "&gt;mpg&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; "&gt;Predictors&lt;/td&gt;
+&lt;td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  "&gt;Estimates&lt;/td&gt;
+&lt;td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  "&gt;CI&lt;/td&gt;
+&lt;td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  "&gt;p&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; "&gt;(Intercept)&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "&gt;19.20&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "&gt;&amp;#45;7.62&amp;nbsp;&amp;ndash;&amp;nbsp;46.02&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "&gt;0.154&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; "&gt;disp&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "&gt;&amp;#45;0.04&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "&gt;&amp;#45;0.05&amp;nbsp;&amp;ndash;&amp;nbsp;-0.02&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "&gt;&lt;strong&gt;&amp;lt;0.001&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; "&gt;qsec&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "&gt;0.38&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "&gt;&amp;#45;0.58&amp;nbsp;&amp;ndash;&amp;nbsp;1.33&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "&gt;0.427&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; "&gt;gear&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "&gt;0.71&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "&gt;&amp;#45;1.80&amp;nbsp;&amp;ndash;&amp;nbsp;3.21&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "&gt;0.567&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;"&gt;Observations&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3"&gt;32&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;"&gt;R&lt;sup&gt;2&lt;/sup&gt; / R&lt;sup&gt;2&lt;/sup&gt; adjusted&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3"&gt;0.725 / 0.695&lt;/td&gt;
+&lt;/tr&gt;
 
+&lt;/table&gt;
 
+---
+class: inverse, center, middle
 
+# Gestire Bibliografia?
+---
 
+# Gestire Bibliografia
 
+Anche la gestione della bibliografia è estremamente semplice. L'idea è di avere un file `.bib` con tutti i riferimenti che vogliamo citare. I file bib possono essere generati dai vari software per gestire la bibliografia (Mendeley, Zotero, etc.) oppure direttamente dai database (Google Scholar):
 
+&lt;img src="img/scholar-bib.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Gestire Bibliografia
+
+Poi trovate questo, che estrae le informazioni rilevanti in un formato (`.bib`) leggibile da R
+
+```bib
+@article{vogel2004,
+  title={Neural activity predicts individual differences in visual working memory capacity},
+  author={Vogel, Edward K and Machizawa, Maro G},
+  journal={Nature},
+  volume={428},
+  number={6984},
+  pages={748--751},
+  year={2004},
+  publisher={Nature Publishing Group}
+}
+```
+
+---
+
+# Gestire Bibliografia
+
+Aggiornando lo `YAML` con il percorso del file `.bib` ed eventualmente un file `.csl` (che definisce lo stile della bibligrafia, e.g., APA 7th):
+
+```
+---
+title: "Document Title"
+author: "Autore"
+date: "2/18/2022"
+output: html_document
+*bibliography: files/references.bib
+*csl: files/apa7.csl
+---
+
+```
+
+Poi potete durante la scrittura inserire una citazione inline `[@vogel2004]` e questa verrà inserita come citazione inline (Vogel &amp; Machizawa, 2004) e come citazione alla fine in termini voce bibliografica completa:
+
+- Vogel, E. K., &amp; Machizawa, M. G. (2004). Neural activity predicts individual differences in visual working memory capacity. *Nature*, 428(6984), 748-751.
+
+---
+class: inverse, center, middle
+
+# Come organizzare un documento
+
+---
+# Come organizzare un documento
+
+Solitamente siamo abituati ad avere un unico documento, ad esempio `documento.docx` che contiene tutto. Quando lavoriamo con R Markdown dobbiamo organizzarci in modo diverso:
+
+.pull-left[
+
+```
+  📦rmarkdown
+   ┣ 📂files
+   ┃ ┣ 📜apa7.cls
+   ┃ ┗ 📜references.bib
+   ┣ 📂img
+   ┃ ┗ 📜img1.png
+*  ┣ 📜document.Rmd
+   ┣ 📜document.html
+   ┣ 📜document.pdf
+   ┗ 📜document.word
+```
+]
+
+--
+
+.pull-rigth[
+
+Esiste il file `.Rmd` e tutti i file secondari (immagini, bibliografia, etc.). Il file `.Rmd` viene compilato per creare poi i vari output (`.html`, `.pdf`, `.word`, etc.)
+
+]
+
+---
+class: inverse, center, middle
+
+# Altre cose che posso fare?
+
+---
+# Altre cose che posso fare?
+
+- Slides (queste slides sono fatte in RMarkdown)
+  - [Xaringan](https://github.com/yihui/xaringan)
+- Curriculum (ci sono dei template)
+  - [Vitae](https://github.com/mitchelloharawild/vitae)
+  - [Pagedown](https://github.com/rstudio/pagedown)
+- Libri
+  - [Bookdown](https://pkgs.rstudio.com/bookdown/)
+- Siti web
+  - [Blogdown](https://pkgs.rstudio.com/blogdown/)
+  - [Distill](https://rstudio.github.io/distill/)
+
+---
+class: inverse, center, middle
+
+# Qualche consiglio finale
+
+---
+# Qualche consiglio finale
+
+Le potenzialità di RMarkdown sono immense ma anche la curva di apprendimento è notevole, sopratutto di funzioni più avanzate. Quindi:
+
+- Trovate un **template** per le vostre esigenze (report, tesi), scrivendo `rmarkdown template` su Google
+- Se avete necessità, modificate alcune parti del template in modo da capire anche le funzionalità più avanzate
+- Non preoccupatevi più di:
+  - copiare e incollare numeri, statistiche e risultati
+  - spostare manualmente tabelle e immagini
+  - gestire a mano la bibliografia
+  
+---
+class: final-slide, center, middle
+
+# You are ready to create amazing documents 😄
+
+&lt;img src="img/final-meme.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+&lt;/br&gt;
+
+.contact[&lt;svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"&gt;&lt;/path&gt;&lt;/svg&gt; filippo.gambarota@gmail.com]
+&lt;/br&gt;
+.contact[&lt;svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"&gt;&lt;/path&gt;&lt;/svg&gt; @fgambarota]
+&lt;/br&gt;
+.contact[&lt;svg viewBox="0 0 496 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"&gt;&lt;/path&gt;&lt;/svg&gt; filippogambarota]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
