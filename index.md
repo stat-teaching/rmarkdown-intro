@@ -1,16 +1,16 @@
-# Slides
+## Slides
 
-- Introduzione a R Markdown [slides-html](slides/rmarkdown-intro.html)[slides](slides/rmarkdown-intro.pdf)
+- Introduzione a R Markdown [[slides-html](slides/rmarkdown-intro.html)] - [[slides-pdf](slides/rmarkdown-intro.pdf)]
 - Video
 
-# Resources
+## Resources
 
-## Books
+### Books
 
 - [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/): Questa è la documentazione principale di R Markdown scritta direttamente dal suo creatore [Yihui Xie](https://yihui.org/en/about/)
 - [R Markdown Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook/): Questo è un libro più avanzato, nel senso che fornisce una serie di tricks pratici per ottenere ancora di più dai documenti R Markdown.
 
-## Packages
+### Packages
 
 - [`rmarkdown`](https://cran.r-project.org/web/packages/rmarkdown/index.html): Questo è il pacchetto principale
 - [`knitr`](https://cran.r-project.org/web/packages/knitr/index.html): questo è il motore principale. Con questo pacchetto è possibile unire codice e testo.
@@ -19,18 +19,18 @@
 - [`blogdown`](https://cran.r-project.org/web/packages/blogdown/index.html): Un pacchetto per creare e mantenere siti Web basati su file R Markdown
 - [`distill`](https://rstudio.github.io/distill/): Un pacchetto per creare documenti e siti web in modo più semplificato rispetto a `blogdown`
 
-## Templates
+### Templates
 
 - [ThesisDown](https://github.com/ismayc/thesisdown): Package for writing your thesis in RMarkdown
 - https://ourcodingclub.github.io/tutorials/rmarkdown-dissertation/: Tutorial on thesis writing with RMarkdown
 
-## Tutorials
+### Tutorials
 
-## Blog
+### Blog
 
 - https://ourcodingclub.github.io/tutorials/rmarkdown/
 
-## Talks
+### Talks
 
 Il canale Youtube di [RStudio](https://www.youtube.com/channel/UC3xfbCMLCw1Hh4dWop3XtHg) ha un sacco di tutorial e talks utili, anche su R Markdown. In particolare:
 
