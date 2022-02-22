@@ -63,7 +63,7 @@ Sicuramente però vi sarà capitato di dover fare operazioni complesse come:
 
 .pull-right[
 
-&lt;img src="img/word-meme.jpeg" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/word-meme.jpeg" width="35" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -306,6 +306,14 @@ Scrivendo in `HTML` possiamo principalmente scrivere documenti `HTML` (visualizz
 ]
 
 ---
+
+# Un documento dinamico
+
+Un documento R Markdown è **dinamico** perchè un cambiamento nel testo, nei dati o nel codice automaticamente aggiorna l'output essendo che **figure, tabelle e numeri sono generati durante la compilazione**
+
+&lt;img src="img/dynamic-document.svg" style="display: block; margin: auto;" /&gt;
+
+---
 # The Big Picture
 
 &lt;img src="img/big-picture.svg" width="55%" style="display: block; margin: auto;" /&gt;
@@ -433,15 +441,15 @@ Il formato dell'inline invece è più semplice, si utilizzano i backticks &lt;co
 
 
 ```
-##  [1] -0.3821222  1.3219136 -1.5490648 -0.9473481 -0.8084589 -0.0150353
-##  [7] -0.7342401 -2.3731534 -0.2336391 -0.1126938
+##  [1] -1.5894000  0.1064137  0.7955022  0.3896144  0.4821136 -0.8290162
+##  [7] -0.6788757 -1.8331773  1.1488376  0.1985942
 ```
 
 Se durante il testo vogliamo fare riferimento all'oggetto `x` possiamo riportare caratteristiche di `x` senza esplicitamente scrivere i numeri:
 
-- La media di `x` è &lt;code&gt;&amp;grave;r mean(x)&amp;grave;&lt;/code&gt; -&gt; -0.5833842
-- La deviazione standard di `x` è &lt;code&gt;&amp;grave;r sd(x)&amp;grave;&lt;/code&gt; -&gt; 0.9820193
-- L'errore standard della media di `x` è &lt;code&gt;&amp;grave;r sd(x)/sqrt(length(x))&amp;grave;&lt;/code&gt; -&gt; 0.3105418
+- La media di `x` è &lt;code&gt;&amp;grave;r mean(x)&amp;grave;&lt;/code&gt; -&gt; -0.1809394
+- La deviazione standard di `x` è &lt;code&gt;&amp;grave;r sd(x)&amp;grave;&lt;/code&gt; -&gt; 1.005271
+- L'errore standard della media di `x` è &lt;code&gt;&amp;grave;r sd(x)/sqrt(length(x))&amp;grave;&lt;/code&gt; -&gt; 0.3178946
 
 ---
 class: inverse, center, middle
@@ -451,7 +459,7 @@ class: inverse, center, middle
 
 # Espressioni Matematiche
 
-Qualche volta dobbiamo scrivere espressioni matematiche `\(\frac{x}{2}\)`, lettere greche `\(\mu_x\)` o espressioni complesse `\(y_i = \beta_0 + \beta_{1}X_{1} + \epsilon_i\)`. In word queste sono estremamente complesse da scrivere mentre in RMardown è sufficiente imparare la sintassi di Latex:
+Qualche volta dobbiamo scrivere espressioni matematiche `\(\frac{x}{2}\)`, lettere greche `\(\mu_x\)` o espressioni complesse `\(y_i = \beta_0 + \beta_{1}X_{1} + \epsilon_i\)`. In word queste sono estremamente complesse da scrivere mentre in RMarkdown è sufficiente imparare la sintassi di Latex:
 
 - `$\frac{x}{2}$` -&gt; `\(\frac{x}{2}\)`
 - `$y_i = \beta_0 + \beta_{1}X_{1}$ + \epsilon_i$`-&gt;  `\(y_i = \beta_0 + \beta_{1}X_{1} + \epsilon_i\)`
@@ -487,7 +495,7 @@ knitr::include_graphics("img/ex-img2.png")
 ```
 ````
 &lt;div class="figure" style="text-align: center"&gt;
-&lt;img src="img/ex-img2.jpg" alt="The caption of my image"  /&gt;
+&lt;img src="img/ex-img2.jpg" alt="The caption of my image" width="328" /&gt;
 &lt;p class="caption"&gt;The caption of my image&lt;/p&gt;
 &lt;/div&gt;
 
@@ -527,7 +535,7 @@ Solitamente però le tabelle sono: **statistiche descrittive** o **risultati di 
 
 
 ```
-## # A tibble: 3 × 6
+## # A tibble: 3 x 6
 ##   Species     mean    sd     se   min   max
 ##   &lt;fct&gt;      &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 ## 1 setosa      5.01 0.352 0.0498   4.3   5.8

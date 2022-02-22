@@ -338,6 +338,16 @@ knitr::include_graphics("img/rmd-workflow.png")
 ]
 
 ---
+
+# Un documento dinamico
+
+Un documento R Markdown è **dinamico** perchè un cambiamento nel testo, nei dati o nel codice automaticamente aggiorna l'output essendo che **figure, tabelle e numeri sono generati durante la compilazione**
+
+```{r}
+knitr::include_graphics("img/dynamic-document.svg")
+```
+
+---
 # The Big Picture
 
 ```{r, out.width="55%"}
@@ -485,7 +495,7 @@ class: inverse, center, middle
 
 # Espressioni Matematiche
 
-Qualche volta dobbiamo scrivere espressioni matematiche $\frac{x}{2}$, lettere greche $\mu_x$ o espressioni complesse $y_i = \beta_0 + \beta_{1}X_{1} + \epsilon_i$. In word queste sono estremamente complesse da scrivere mentre in RMardown è sufficiente imparare la sintassi di Latex:
+Qualche volta dobbiamo scrivere espressioni matematiche $\frac{x}{2}$, lettere greche $\mu_x$ o espressioni complesse $y_i = \beta_0 + \beta_{1}X_{1} + \epsilon_i$. In word queste sono estremamente complesse da scrivere mentre in RMarkdown è sufficiente imparare la sintassi di Latex:
 
 - `$\frac{x}{2}$` -> $\frac{x}{2}$
 - `$y_i = \beta_0 + \beta_{1}X_{1}$ + \epsilon_i$`->  $y_i = \beta_0 + \beta_{1}X_{1} + \epsilon_i$
