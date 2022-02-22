@@ -17,4 +17,6 @@ E’ possibile accedere al sito del corso di direttamente a questo link
 -   `slides/`: sono le slide principali del corso in formato `html` e
     `pdf`
 
-<img src="slides/img/squid-game.jpg" width="60%" style="display: block; margin: auto;" />
+<p align="center">
+<img src="slides/img/squid-game.jpg" width="400"/>
+</p>

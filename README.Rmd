@@ -22,6 +22,6 @@ E' possibile accedere al sito del corso di direttamente a questo link https://fi
 - `example/`: contiene template per documenti e slide con alcuni esempi di sintassi Markdown e codice R
 - `slides/`: sono le slide principali del corso in formato `html` e `pdf`
 
-```{r, out.width="60%", fig.align='center', echo=FALSE}
-knitr::include_graphics("slides/img/squid-game.jpg")
-```
+<p align="center">
+  <img src="slides/img/squid-game.jpg" width="400"/>
+</p>
