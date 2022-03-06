@@ -73,7 +73,7 @@ knitr::include_graphics("img/word_reddit_meme.gif")
 
 .pull-right[
 
-```{r}
+```{r, out.width="80%"}
 knitr::include_graphics("img/word-meme.jpeg")
 ```
 
@@ -456,7 +456,7 @@ print(1:5)
 
 .pull-right[
 
-Questo invece è un inline-code. Se voglio scrivere il numero `10` posso fare anche in questo modo: scrivo il numero `r cat(10)`. Non si vede direttamente dalle slide ma io non ho scritto *verbatim* il numero 10 ma è il risultato di `r rinline("5+5")`
+Questo invece è un inline-code. Se voglio scrivere il numero `10` posso fare anche in questo modo: scrivo il numero `10`. Non si vede direttamente dalle slide ma io non ho scritto *verbatim* il numero 10 ma è il risultato di `r rinline("5+5")`
 
 ]
 
@@ -734,7 +734,7 @@ Le potenzialità di RMarkdown sono immense ma anche la curva di apprendimento è
 ---
 # Resources
 
-Tutto il materiale che riguarda l'introduzione a R Markdown si trova nella repository `r icons::fontawesome("github")` [rmarkdown-intro](filippogambarota.github.io/rmarkdown-intro). Potete accedere anche il sito direttamente [link](https://filippogambarota.github.io/rmarkdown-intro/) Dove trovate:
+Tutto il materiale che riguarda l'introduzione a R Markdown si trova nella repository `r icons::fontawesome("github")` [rmarkdown-intro](filippogambarota.github.io/rmarkdown-intro). Potete accedere direttamente al [sito](https://filippogambarota.github.io/rmarkdown-intro/) Dove trovate:
 
 - il codice per riprodurre queste slide
 - i template di documenti, slide ed esercizi
@@ -771,11 +771,11 @@ knitr::include_graphics("img/trackdown.png")
 ---
 # Per approfondire...
 
-Se volete ulteriormente approfondire, il Dipartimento di Psicologia dello Sviluppo e della Socializzazione sta organizzando dei corsi avanzati su argomenti utili nella ricerca (Applied Research Courses Academy, [ARCA](https://www.dpss.unipd.it/arca/home))
+Se volete ulteriormente approfondire, il Dipartimento di Psicologia dello Sviluppo e della Socializzazione sta organizzando dei corsi avanzati su argomenti utili nella ricerca (**Applied Research Courses Academy**, [ARCA](https://www.dpss.unipd.it/arca/home))
 
 .pull-left[
 
-In particolare, la Dott.ssa Ottavia Epifania tiene un corso approfondito su R Markdown https://www.dpss.unipd.it/arca/RMarkdown
+In particolare, la Dott.ssa **Ottavia Epifania** tiene un corso approfondito su R Markdown https://www.dpss.unipd.it/arca/RMarkdown
 
 ]
 
