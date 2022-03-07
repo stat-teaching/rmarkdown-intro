@@ -2,15 +2,14 @@
 title: "Amazing Document"
 author: "Filippo Gambarota"
 date: "Updated on `r Sys.Date()`"
-output: 
-  pdf_document:
-    toc: true
-    #number_sections: true
+output:
   html_document:
     #number_sections: true
     toc: true
     toc_float: true
     keep_md: true
+  pdf_document:
+    toc: true
 bibliography: files/references.bib
 csl: files/apa7.csl
 ---
@@ -33,7 +32,7 @@ mean_sd <- function(x){
 
 Abbiamo visto che la sintassi Mardown è molto semplice e leggibile. Possiamo mettere in **grassetto**, *corsivo* ed anche ~~barrare~~ una parola. 
 
-Gli spazi   tra le parole non vengono intepretati come in Word, infatti possiamo mettere quanti spazi      vogliamo (visibile solo nel file `.Rmd`) ma il risultato sarà sempre lo stesso.
+Gli spazi   tra le parole non vengono intepretati come in Word, infatti possiamo mettere quanti spazi vogliamo (visibile solo nel file `.Rmd`) ma il risultato sarà sempre lo stesso.
 
 Per fare un nuovo paragrafo (a capo con uno spazio) dobbiamo inserire una linea vuota tra una porzione di testo e l'altra.
 
@@ -84,6 +83,23 @@ Lo stesso vale per un grafico:
 
 ```{r}
 plot(mtcars$mpg, mtcars$disp, pch = 19)
+```
+
+# Immagini
+
+Per le immagini possiamo usare due modalità principali:
+
+- sintassi `markdown`: `![caption](file)`
+- sintassi `rmarkdown`: `knitr::include_graphics(file)`
+
+Il risultato è simile ma la seconda modalità è più semplice da personalizzare in termini di dimensioni, caption, etc.
+
+`![Word Meme](img/word-meme.jpg){width=20%}`
+
+![Word Meme](img/word-meme.jpg){width=30%}
+
+```{r, echo = TRUE, fig.cap= "Amazing Cat", out.width="30%", fig.align='center'}
+knitr::include_graphics("img/keyboard-cat.jpg")
 ```
 
 # Citazioni
@@ -150,3 +166,5 @@ plot(effects::allEffects(fit))
 ```
 
 # Bibliografia
+
+<!-- Come vedete di default RMarkdown inserisce la bibliografia alla fine del documento. Se vogliamo che la sezione bibliografia sia chiamata in un certo modo, semplicemente inseriamo una sezione "vuota" alla fine. -->
