@@ -1,7 +1,10 @@
 ## Slides
 
 - Introduzione a R Markdown [[slides-html](slides/rmarkdown-intro.html)] - [[slides-pdf](slides/rmarkdown-intro.pdf)]
-- Video
+- Video:
+	+ Parte 1/3 [link](https://youtu.be/fB0vmGELDcw)
+	+ Parte 2/3 [link](https://youtu.be/sxdsMtzl-R4)
+	+ Parte 3/3 [link](https://youtu.be/D7kS9CvlnBE)
 
 ## Resources
 
@@ -21,10 +24,10 @@
 
 ### Templates
 
-- [ThesisDown](https://github.com/ismayc/thesisdown): Package for writing your thesis in RMarkdown
-- https://ourcodingclub.github.io/tutorials/rmarkdown-dissertation/: Tutorial on thesis writing with RMarkdown
+Per scrivere la tesi in R Markdown:
 
-### Tutorials
+- [ThesisDown](https://github.com/ismayc/thesisdown): Pacchetto pensato per scrivere la tesi. Necessita di qualche aggiustamento in caso di formattazione particolare
+- https://ourcodingclub.github.io/tutorials/rmarkdown-dissertation/: Un tutorial per scrivere la tesi in R Markdown
 
 ### Blog
 
@@ -34,5 +37,5 @@
 
 Il canale Youtube di [RStudio](https://www.youtube.com/channel/UC3xfbCMLCw1Hh4dWop3XtHg) ha un sacco di tutorial e talks utili, anche su R Markdown. In particolare:
 
-- [Yihui Xie | One R Markdown Document, Fourteen Demos](https://www.youtube.com/watch?v=qLEkUjxk7e8)
-- [Rob Hyndman | How Rmarkdown changed my life](https://www.youtube.com/watch?v=_D-ux3MqGug)
+- [Yihui Xie - One R Markdown Document, Fourteen Demos](https://www.youtube.com/watch?v=qLEkUjxk7e8)
+- [Rob Hyndman - How Rmarkdown changed my life](https://www.youtube.com/watch?v=_D-ux3MqGug)
