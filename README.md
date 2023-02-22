@@ -8,7 +8,7 @@ repository sono presenti le slide del corso, template per documenti
 `Rmd` ed una raccolta di risorse utili.
 
 E’ possibile accedere al sito del corso di direttamente a questo link
-<https://filippogambarota.github.io/rmarkdown-intro/>.
+<https://stat-teaching.github.io/rmarkdown-intro/>.
 
 ## Contenuto
 
